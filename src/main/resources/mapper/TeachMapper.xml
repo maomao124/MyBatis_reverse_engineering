@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.TeachMapper">
+    <resultMap id="BaseResultMap" type="data.Teach">
+        <id column="teach_no" jdbcType="BIGINT" property="teachNo"/>
+        <result column="teacher_no" jdbcType="BIGINT" property="teacherNo"/>
+        <result column="class_no" jdbcType="BIGINT" property="classNo"/>
+        <result column="course_no" jdbcType="BIGINT" property="courseNo"/>
+        <result column="semester" jdbcType="VARCHAR" property="semester"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        teach_no, teacher_no, class_no, course_no, semester
+    </sql>
+    <select id="selectByExample" parameterType="data.TeachExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from teach
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from teach
+        where teach_no = #{teachNo,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from teach
+        where teach_no = #{teachNo,jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteByExample" parameterType="data.TeachExample">
+        delete from teach
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="data.Teach">
+        insert into teach (teach_no, teacher_no, class_no,
+                           course_no, semester)
+        values (#{teachNo,jdbcType=BIGINT}, #{teacherNo,jdbcType=BIGINT}, #{classNo,jdbcType=BIGINT},
+                #{courseNo,jdbcType=BIGINT}, #{semester,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="data.Teach">
+        insert into teach
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="teachNo != null">
+                teach_no,
+            </if>
+            <if test="teacherNo != null">
+                teacher_no,
+            </if>
+            <if test="classNo != null">
+                class_no,
+            </if>
+            <if test="courseNo != null">
+                course_no,
+            </if>
+            <if test="semester != null">
+                semester,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="teachNo != null">
+                #{teachNo,jdbcType=BIGINT},
+            </if>
+            <if test="teacherNo != null">
+                #{teacherNo,jdbcType=BIGINT},
+            </if>
+            <if test="classNo != null">
+                #{classNo,jdbcType=BIGINT},
+            </if>
+            <if test="courseNo != null">
+                #{courseNo,jdbcType=BIGINT},
+            </if>
+            <if test="semester != null">
+                #{semester,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="data.TeachExample" resultType="java.lang.Long">
+        select count(*) from teach
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update teach
+        <set>
+            <if test="row.teachNo != null">
+                teach_no = #{row.teachNo,jdbcType=BIGINT},
+            </if>
+            <if test="row.teacherNo != null">
+                teacher_no = #{row.teacherNo,jdbcType=BIGINT},
+            </if>
+            <if test="row.classNo != null">
+                class_no = #{row.classNo,jdbcType=BIGINT},
+            </if>
+            <if test="row.courseNo != null">
+                course_no = #{row.courseNo,jdbcType=BIGINT},
+            </if>
+            <if test="row.semester != null">
+                semester = #{row.semester,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="example != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update teach
+        set teach_no = #{row.teachNo,jdbcType=BIGINT},
+        teacher_no = #{row.teacherNo,jdbcType=BIGINT},
+        class_no = #{row.classNo,jdbcType=BIGINT},
+        course_no = #{row.courseNo,jdbcType=BIGINT},
+        semester = #{row.semester,jdbcType=VARCHAR}
+        <if test="example != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="data.Teach">
+        update teach
+        <set>
+            <if test="teacherNo != null">
+                teacher_no = #{teacherNo,jdbcType=BIGINT},
+            </if>
+            <if test="classNo != null">
+                class_no = #{classNo,jdbcType=BIGINT},
+            </if>
+            <if test="courseNo != null">
+                course_no = #{courseNo,jdbcType=BIGINT},
+            </if>
+            <if test="semester != null">
+                semester = #{semester,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where teach_no = #{teachNo,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="data.Teach">
+        update teach
+        set teacher_no = #{teacherNo,jdbcType=BIGINT},
+            class_no   = #{classNo,jdbcType=BIGINT},
+            course_no  = #{courseNo,jdbcType=BIGINT},
+            semester   = #{semester,jdbcType=VARCHAR}
+        where teach_no = #{teachNo,jdbcType=BIGINT}
+    </update>
+</mapper>

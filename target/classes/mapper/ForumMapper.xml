@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.ForumMapper">
+    <resultMap id="BaseResultMap" type="data.Forum">
+        <id column="forum_no" jdbcType="BIGINT" property="forumNo"/>
+        <result column="forum_people_no" jdbcType="BIGINT" property="forumPeopleNo"/>
+        <result column="forum_name" jdbcType="VARCHAR" property="forumName"/>
+        <result column="forum_identity" jdbcType="VARCHAR" property="forumIdentity"/>
+        <result column="forum_time" jdbcType="VARCHAR" property="forumTime"/>
+        <result column="forum_content" jdbcType="VARCHAR" property="forumContent"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        forum_no, forum_people_no, forum_name, forum_identity, forum_time, forum_content
+    </sql>
+    <select id="selectByExample" parameterType="data.ForumExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from forum
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from forum
+        where forum_no = #{forumNo,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from forum
+        where forum_no = #{forumNo,jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteByExample" parameterType="data.ForumExample">
+        delete from forum
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="data.Forum">
+        insert into forum (forum_no, forum_people_no, forum_name,
+                           forum_identity, forum_time, forum_content)
+        values (#{forumNo,jdbcType=BIGINT}, #{forumPeopleNo,jdbcType=BIGINT}, #{forumName,jdbcType=VARCHAR},
+                #{forumIdentity,jdbcType=VARCHAR}, #{forumTime,jdbcType=VARCHAR}, #{forumContent,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="data.Forum">
+        insert into forum
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="forumNo != null">
+                forum_no,
+            </if>
+            <if test="forumPeopleNo != null">
+                forum_people_no,
+            </if>
+            <if test="forumName != null">
+                forum_name,
+            </if>
+            <if test="forumIdentity != null">
+                forum_identity,
+            </if>
+            <if test="forumTime != null">
+                forum_time,
+            </if>
+            <if test="forumContent != null">
+                forum_content,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="forumNo != null">
+                #{forumNo,jdbcType=BIGINT},
+            </if>
+            <if test="forumPeopleNo != null">
+                #{forumPeopleNo,jdbcType=BIGINT},
+            </if>
+            <if test="forumName != null">
+                #{forumName,jdbcType=VARCHAR},
+            </if>
+            <if test="forumIdentity != null">
+                #{forumIdentity,jdbcType=VARCHAR},
+            </if>
+            <if test="forumTime != null">
+                #{forumTime,jdbcType=VARCHAR},
+            </if>
+            <if test="forumContent != null">
+                #{forumContent,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="data.ForumExample" resultType="java.lang.Long">
+        select count(*) from forum
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update forum
+        <set>
+            <if test="row.forumNo != null">
+                forum_no = #{row.forumNo,jdbcType=BIGINT},
+            </if>
+            <if test="row.forumPeopleNo != null">
+                forum_people_no = #{row.forumPeopleNo,jdbcType=BIGINT},
+            </if>
+            <if test="row.forumName != null">
+                forum_name = #{row.forumName,jdbcType=VARCHAR},
+            </if>
+            <if test="row.forumIdentity != null">
+                forum_identity = #{row.forumIdentity,jdbcType=VARCHAR},
+            </if>
+            <if test="row.forumTime != null">
+                forum_time = #{row.forumTime,jdbcType=VARCHAR},
+            </if>
+            <if test="row.forumContent != null">
+                forum_content = #{row.forumContent,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="example != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update forum
+        set forum_no = #{row.forumNo,jdbcType=BIGINT},
+        forum_people_no = #{row.forumPeopleNo,jdbcType=BIGINT},
+        forum_name = #{row.forumName,jdbcType=VARCHAR},
+        forum_identity = #{row.forumIdentity,jdbcType=VARCHAR},
+        forum_time = #{row.forumTime,jdbcType=VARCHAR},
+        forum_content = #{row.forumContent,jdbcType=VARCHAR}
+        <if test="example != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="data.Forum">
+        update forum
+        <set>
+            <if test="forumPeopleNo != null">
+                forum_people_no = #{forumPeopleNo,jdbcType=BIGINT},
+            </if>
+            <if test="forumName != null">
+                forum_name = #{forumName,jdbcType=VARCHAR},
+            </if>
+            <if test="forumIdentity != null">
+                forum_identity = #{forumIdentity,jdbcType=VARCHAR},
+            </if>
+            <if test="forumTime != null">
+                forum_time = #{forumTime,jdbcType=VARCHAR},
+            </if>
+            <if test="forumContent != null">
+                forum_content = #{forumContent,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where forum_no = #{forumNo,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="data.Forum">
+        update forum
+        set forum_people_no = #{forumPeopleNo,jdbcType=BIGINT},
+            forum_name      = #{forumName,jdbcType=VARCHAR},
+            forum_identity  = #{forumIdentity,jdbcType=VARCHAR},
+            forum_time      = #{forumTime,jdbcType=VARCHAR},
+            forum_content   = #{forumContent,jdbcType=VARCHAR}
+        where forum_no = #{forumNo,jdbcType=BIGINT}
+    </update>
+</mapper>

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.ScoreMapper">
+    <resultMap id="BaseResultMap" type="data.Score">
+        <result column="no" jdbcType="BIGINT" property="no"/>
+        <result column="course_no" jdbcType="BIGINT" property="courseNo"/>
+        <result column="usual_score" jdbcType="REAL" property="usualScore"/>
+        <result column="end_score" jdbcType="REAL" property="endScore"/>
+        <result column="final_score" jdbcType="REAL" property="finalScore"/>
+        <result column="grade_point" jdbcType="REAL" property="gradePoint"/>
+        <result column="semester" jdbcType="VARCHAR" property="semester"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        no, course_no, usual_score, end_score, final_score, grade_point, semester
+    </sql>
+    <select id="selectByExample" parameterType="data.ScoreExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from score
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <delete id="deleteByExample" parameterType="data.ScoreExample">
+        delete from score
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="data.Score">
+        insert into score (no, course_no, usual_score,
+                           end_score, final_score, grade_point,
+                           semester)
+        values (#{no,jdbcType=BIGINT}, #{courseNo,jdbcType=BIGINT}, #{usualScore,jdbcType=REAL},
+                #{endScore,jdbcType=REAL}, #{finalScore,jdbcType=REAL}, #{gradePoint,jdbcType=REAL},
+                #{semester,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="data.Score">
+        insert into score
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="no != null">
+                no,
+            </if>
+            <if test="courseNo != null">
+                course_no,
+            </if>
+            <if test="usualScore != null">
+                usual_score,
+            </if>
+            <if test="endScore != null">
+                end_score,
+            </if>
+            <if test="finalScore != null">
+                final_score,
+            </if>
+            <if test="gradePoint != null">
+                grade_point,
+            </if>
+            <if test="semester != null">
+                semester,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="no != null">
+                #{no,jdbcType=BIGINT},
+            </if>
+            <if test="courseNo != null">
+                #{courseNo,jdbcType=BIGINT},
+            </if>
+            <if test="usualScore != null">
+                #{usualScore,jdbcType=REAL},
+            </if>
+            <if test="endScore != null">
+                #{endScore,jdbcType=REAL},
+            </if>
+            <if test="finalScore != null">
+                #{finalScore,jdbcType=REAL},
+            </if>
+            <if test="gradePoint != null">
+                #{gradePoint,jdbcType=REAL},
+            </if>
+            <if test="semester != null">
+                #{semester,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="data.ScoreExample" resultType="java.lang.Long">
+        select count(*) from score
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update score
+        <set>
+            <if test="row.no != null">
+                no = #{row.no,jdbcType=BIGINT},
+            </if>
+            <if test="row.courseNo != null">
+                course_no = #{row.courseNo,jdbcType=BIGINT},
+            </if>
+            <if test="row.usualScore != null">
+                usual_score = #{row.usualScore,jdbcType=REAL},
+            </if>
+            <if test="row.endScore != null">
+                end_score = #{row.endScore,jdbcType=REAL},
+            </if>
+            <if test="row.finalScore != null">
+                final_score = #{row.finalScore,jdbcType=REAL},
+            </if>
+            <if test="row.gradePoint != null">
+                grade_point = #{row.gradePoint,jdbcType=REAL},
+            </if>
+            <if test="row.semester != null">
+                semester = #{row.semester,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="example != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update score
+        set no = #{row.no,jdbcType=BIGINT},
+        course_no = #{row.courseNo,jdbcType=BIGINT},
+        usual_score = #{row.usualScore,jdbcType=REAL},
+        end_score = #{row.endScore,jdbcType=REAL},
+        final_score = #{row.finalScore,jdbcType=REAL},
+        grade_point = #{row.gradePoint,jdbcType=REAL},
+        semester = #{row.semester,jdbcType=VARCHAR}
+        <if test="example != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+</mapper>
